@@ -20,7 +20,7 @@ export const signin = async (req, res) => {
         message: 'Invalid Credentials',
       });
 
-    const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, 'test', {
+    const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
 
@@ -50,7 +50,7 @@ export const signup = async (req, res) => {
 
     const result = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
 
-    const token = jwt.sign({ email: result.email, id: result._id }, 'test', {
+    const token = jwt.sign({ email: result.email, id: result._id }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
     res.status(200).json({ result, token });
